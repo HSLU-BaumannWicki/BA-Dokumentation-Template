@@ -1,0 +1,51 @@
+dist: trusty
+language: tex
+sudo: false
+
+env:
+  - FILE_NAME=BA-Dokumentation-Template
+
+branches:
+  except:
+    /^v[0-9]+\.[0-9]+\.[0-9]+/
+
+install:
+  - cp -n texlive* /tmp/
+  - source /tmp/texlive_install.sh
+  - tlmgr install koma-script etoolbox logreq biblatex-apa csquotes siunitx oberdiek tocloft abstract pdfpages enumitem
+  - tlmgr install psnfss ms caption ec l3kernel l3packages zapfding symbol helvetic textpos glossaries xkeyval mfirstuc
+  - tlmgr install textcase xfor datatool substr fp tracklang pdfx iftex xcolor xmpincl glossaries-german
+
+cache:
+  directories:
+    - /tmp/texlive
+    - $HOME/.texlive
+
+before_script:
+  - source .version
+
+script:
+  - pdflatex -interaction=nonstopmode -halt-on-error ${FILE_NAME}.tex
+  - biber *.bcf
+  - makeglossaries ${FILE_NAME}
+  - pdflatex -interaction=nonstopmode -halt-on-error ${FILE_NAME}.tex
+  - pdflatex -interaction=nonstopmode -halt-on-error "\providecommand{\docversion}{${VERSION}.${TRAVIS_BUILD_NUMBER}} \input{${FILE_NAME}.tex}"
+
+deploy:
+  - provider: releases
+    api_key: $GIT_AUTH
+    skip_cleanup: true
+    prerelease: true
+    file: "${FILE_NAME}.pdf"
+    tag_name: "v${VERSION}.${TRAVIS_BUILD_NUMBER}"
+    name: "v${VERSION}.${TRAVIS_BUILD_NUMBER}"
+    on:
+      tags: false
+      branch: "master"
+  - provider: releases
+    api_key: $GIT_AUTH
+    skip_cleanup: true
+    file:
+      - "${FILE_NAME}.pdf"
+    on:
+      tags: true

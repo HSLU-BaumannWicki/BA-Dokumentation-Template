@@ -31,7 +31,7 @@ Hauptordner
 ```
 
 # Travis CI/CD
-Jeder commit wird über Travis gebaut und bei einer Änderung auf dem Master direkt als "Pre-Release" deployed. Dafür muss [Travis.org](https://travis.org/) oder [Travis.com](https://travis.com) zuerst die diesbezüglichen Berechtigungen erhalten, und für dieses Repo aktiviert sein. Danach muss der Dateiname in ```travis.yml``` nachgetragen werden. Damit das Deployment funktioniert muss ein OAuth Token generiert werden und in Travis hinterlegt werden.
+Jeder commit wird über Travis gebaut und bei einer Änderung auf dem Master direkt als "Pre-Release" deployed. Dafür muss [Travis-CI.org](https://travis-ci.org/) oder [Travis-CI.com](https://travis-ci.com) zuerst die diesbezüglichen Berechtigungen erhalten, und für dieses Repo aktiviert sein. Danach muss der Dateiname in ```travis.yml``` nachgetragen werden. Damit das Deployment funktioniert muss ein OAuth Token generiert werden und in Travis hinterlegt werden.
 
 ## Anpassungen in .travis.yml
 Ändere den Name von ```FILE_NAME``` auf dein Dokument:

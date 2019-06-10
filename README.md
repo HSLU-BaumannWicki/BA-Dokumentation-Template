@@ -22,8 +22,8 @@ Hauptordner
 	|- img					Alle Bilder (werden durch den \graphicspath im Hauptdokument gefunden)
 	|- include				Alle Kapitel-Dateien welche in das Hauptdokument eingebunden werden (inklusive Präambel)
 	|- .gitignore
-	|- .travis.yml			Konfigurationsdatei für Travis
-	|- .Version				Hilfsdatei für die Versionierung für das CD über Travis
+	|- .travis.yml				Konfigurationsdatei für Travis
+	|- .version				Hilfsdatei für die Versionierung für das CD über Travis
 	|- BA-Dokumentation-Template.tex	Hauptdatei
 	|- Referenzen.bib			BibTeX Datei / Referenzbibliothek
 	|- texlive.profile			Hilfsdatei für das Installskript
@@ -32,6 +32,9 @@ Hauptordner
 
 # Travis CI/CD
 Jeder commit wird über Travis gebaut und bei einer Änderung auf dem Master direkt als "Pre-Release" deployed. Dafür muss [Travis-CI.org](https://travis-ci.org/) oder [Travis-CI.com](https://travis-ci.com) zuerst die diesbezüglichen Berechtigungen erhalten, und für dieses Repo aktiviert sein. Danach muss der Dateiname in ```travis.yml``` nachgetragen werden. Damit das Deployment funktioniert muss ein OAuth Token generiert werden und in Travis hinterlegt werden.
+
+## Versionierung
+Unsere Versionierung folgt dem Schema ```v.(Major).(Minor).(Commitnummer - Automatisch)```, dies aus dem Grund damit die Version sicher immer automatisch inkrementiert wird, und keine identischen Versionsnummern für verschiedene Dokumente existieren können. Major und Minor sind in der Datei ```.version``` spezifiziert, während Travis die Buildnummer automatisch einfügt.
 
 ## Anpassungen in .travis.yml
 Ändere den Name von ```FILE_NAME``` auf dein Dokument:
@@ -45,7 +48,7 @@ env:
 In einer ersten Version installierten wir die ganze TeXLive Suite für jeden Build. Dies hat jeweils um die zehn Minuten gedauert. Im Vergleich dazu lief der Build der Datei jeweils maximal eine Minute. Diese Diskrepanz wollten wir angehen. Daher installieren wir eine minimale Umgebung über das Installierskript ```texlive_install.sh```. Damit aber unser Build nicht failt, müssen wir alle fehlenden Packete (und deren Abhängigkeiten) nachinstallieren. Und dazu kommt noch, dass wir die LaTeX-Build Fähigkeit auf Travis hinaufsetzen, da TeX/LaTeX nicht offiziell unterstützt wird.
 
 ### Fehlerbehebung
-Am einfachsten sucht man im tlmgr repository nach der fehlenden Datei/Packet und fügt danach das fehlende Packet zur ```tlmgr install``` Linie im Skript.
+Am einfachsten sucht man im ```tlmgr``` Repository nach der fehlenden Datei/Packet und fügt danach das fehlende Packet zur ```tlmgr install``` Linie im Skript.
 
 ```bash
 tlmgr search --global -all <filename here>*
@@ -84,5 +87,5 @@ Es gibt nun zwei Arten mit diesem Fehler umzugehen:
 2. Eine andere Schriftart verwenden (zum Beispiel die standardmässige von KomaScript verwendete)
 
 # Schlusswort
-Wir hoffen unsere Vorlage nimmt euch ein Bisschen Arbeit ab, damit Ihr euch auf die Arbeit konzentrieren könnt. Viel Erfolg!
+Wir hoffen unsere Vorlage nimmt euch ein Bisschen Arbeit ab, damit ihr euch auf die Arbeit konzentrieren könnt. Viel Erfolg!
 Pascal & Dane

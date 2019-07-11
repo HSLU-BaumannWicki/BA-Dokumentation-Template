@@ -84,6 +84,11 @@
 \newcommand\pro{\item[$+$]}
 \newcommand\con{\item[$-$]}
 
+%%% TRAVIS DEPENDENCY
+% Can delete if you don't use Travis for CI/CD
+% Fallback DocumentVersion for the preamble if built locally
+\providecommand{\docversion}{0.0-localBuild}
+
 % Define list of equations - Thanks to Charles Clayton: https://tex.stackexchange.com/a/354096
 \newcommand{\listequationsname}{\huge{Formelverzeichnis}}
 \newlistof{myequations}{equ}{\listequationsname}

@@ -34,6 +34,13 @@ tlmgr install collection-langeuropean
 tlmgr install babel-german
 tlmgr install hyphen-german
 
+# Install packages needed by travis-ci
+tlmgr install bitset
+tlmgr install letltxmacro
+tlmgr install pdfescape
+tlmgr install pdflscape
+tlmgr install ragged2e
+
 # Keep no backups (not required, simply makes cache bigger)
 tlmgr option -- autobackup 0
 

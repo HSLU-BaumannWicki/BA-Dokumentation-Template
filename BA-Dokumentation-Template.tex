@@ -46,9 +46,6 @@
 
 \usepackage{csquotes}
 
-% Clickable Links to Websites and chapters
-\usepackage{hyperref}
-
 % Change page rotation
 \usepackage{pdflscape}
 
@@ -75,6 +72,10 @@
 	]{biblatex}
 \addbibresource{Referenzen.bib}
 \DeclareLanguageMapping{ngerman}{ngerman-apa}
+
+% Clickable Links to Websites and chapters
+% From the documentation: "Make sure it comeslastof your loaded packages, to give it a fighting chance of not beingover-written, since its job is to redefine many LATEX commands"
+\usepackage{hyperref}
 
 %%% COMMAND REBINDINGS %%%
 \newcommand{\tabitem}{~~\llap{\textbullet}~~}

@@ -1,0 +1,120 @@
+\documentclass[
+	a4paper
+]{scrartcl}
+
+%%% PACKAGES %%%
+
+% PDF/A Compliance
+\usepackage[a-2b]{pdfx}
+
+% add unicode support and use german as language
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+
+% Use Helvetica as font
+\usepackage[scaled]{helvet}
+\renewcommand\familydefault{\sfdefault}
+
+% Better tables
+\usepackage{tabularx}
+
+% Better enumerisation env
+\usepackage{enumitem}
+
+% Use graphics
+\usepackage{graphicx}
+
+% Have subfigures and captions
+\usepackage{subcaption}
+
+% Be able to include PDFs in the file
+\usepackage{pdfpages}
+
+% Have custom abstract heading
+\usepackage{abstract}
+
+% Need a list of equation
+\usepackage{tocloft}
+\usepackage{ragged2e}
+
+% Better equation environment
+\usepackage{amsmath}
+
+% Symbols for most SI units
+\usepackage{siunitx}
+
+\usepackage{csquotes}
+
+% Clickable Links to Websites and sections
+\usepackage{hyperref}
+
+% Change page rotation
+\usepackage{pdflscape}
+
+% Symbols like checkmark
+\usepackage{amssymb}
+\usepackage{pifont}
+
+% TODO Remove this after you wrote the WebAbstract - Only dummy text
+\usepackage{lipsum}
+
+\usepackage[absolute]{textpos}
+
+% Change line spacing
+\renewcommand{\baselinestretch}{0.9}
+
+%%% PATH DEFINITIONS %%%
+\graphicspath{{./img/}}
+
+%%% DOCUMENT %%%
+
+\begin{document}
+
+\pagenumbering{gobble}
+
+\begin{textblock*}{5cm}[0,0](15cm,0.7cm)
+	\includegraphics[keepaspectratio,width=5cm]{img/HSLU_Logo}
+\end{textblock*}
+
+\vspace*{2cm}
+
+\noindent
+\textbf{\LARGE{The Title Of The Work}} \\
+
+\vspace{0.5em}
+
+\bgroup
+% Remove padding of the table
+\setlength\tabcolsep{0cm}
+
+% Table itself
+\begin{large}
+\noindent
+\begin{tabularx}{\textwidth}{p{5cm}X}
+	\textbf{Themenbereiche:} & \\
+	\textbf{Studierende:} & Pascal Baumann, Dane Wicki\\
+	\textbf{Betreuungsperson:} & Betreuer\\
+	\textbf{Experte:} & Experte\\
+	\textbf{Auftraggebende:} & Auftraggeber\\
+	\textbf{Keywords:} & Tag1, Tag2, Tag3, Tag4\\
+\end{tabularx}
+\end{large}
+\egroup
+
+\section{Aufgabenstellung}
+\lipsum[2-4]
+
+\newpage
+
+\lipsum[2-4]
+
+\section{Lösungskonzept}
+\lipsum[1-1]
+
+\section{Spezielle Herausforderungen}
+\lipsum[1-1]
+
+\section{Ausblick}
+\lipsum[1-4]
+
+\end{document}

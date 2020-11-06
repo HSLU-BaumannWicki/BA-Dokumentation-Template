@@ -4,6 +4,7 @@ sudo: false
 
 env:
   - FILE_NAME=BA-Dokumentation-Template
+  - ABSTRACT_NAME=WebAbstract
 
 branches:
   except:
@@ -31,6 +32,8 @@ script:
   - makeglossaries ${FILE_NAME}
   - pdflatex -interaction=nonstopmode -halt-on-error ${FILE_NAME}.tex
   - pdflatex -interaction=nonstopmode -halt-on-error "\providecommand{\docversion}{${VERSION}.${TRAVIS_BUILD_NUMBER}} \input{${FILE_NAME}.tex}"
+  - pdflatex -interaction=nonstopmode -halt-on-error /web-abstract/${ABSTRACT_NAME}.tex
+  - pdflatex -interaction=nonstopmode -halt-on-error /web-abstract/${ABSTRACT_NAME}.tex
 
 deploy:
   - provider: releases

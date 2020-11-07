@@ -21,6 +21,7 @@ Hauptordner
 	|- appendix				Alle Dokumente für den Anhang (PDFs in diesem Ordner werden durch das .gitignore nicht erfasst)
 	|- img					Alle Bilder (werden durch den \graphicspath im Hauptdokument gefunden)
 	|- include				Alle Kapitel-Dateien welche in das Hauptdokument eingebunden werden (inklusive Präambel)
+	|- web-abstract			Ordner für das Web Abstract
 	|- .gitignore
 	|- .travis.yml				Konfigurationsdatei für Travis
 	|- .version				Hilfsdatei für die Versionierung für das CD über Travis

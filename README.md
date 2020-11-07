@@ -31,6 +31,31 @@ Hauptordner
 	|_ texlive_install.sh			Installskript
 ```
 
+# Arbeiten und Kompilieren mit TeXStudio
+Ich (Pascal) empfehle euch mit TeXStudio zu arbeiten, Dane eher den TeXMaker (er kann das Layout von TS nicht leiden). Egal welchen Editor ihr verwendet, da wir sowohl ein Glossar wie auch ein verbessertes Bibliotheksbackend (Biber) verwenden, kann man das Dokument nicht einfach mit F5 in TeXStudio bauen.
+
+* pdflatex (Referenzen werden gesammelt)
+* Biber (Referenzen werden in einem Bibliotheksfile zusammengefasst)
+* makeglossaries (Glossarfile wird erstellt)
+* pdflatex (Bibliotheksfile und Glossar werden gesammelt und im Dokument richtig eingebunden und verwiesen)
+* pdflatex (Inhaltsverzeichnis wird mit korrekten Seitenzahlen gefüllt)
+
+In TeXStudio könnt ihr euch diesen Befehl über **Options>Configure TeXStudio>Build>User Commands** einrichten
+
+![User Command in den Optionen erstellen](./README_user_command.png)
+
+Über den Rollgabelschlüssel an der rechten Seite den neuen Befehl bearbeiten
+
+![User Command bearbeiten](./README_user_command2.png)
+
+Und die jeweiligen Befehle per "Add" dem Command hinzufügen
+
+![User Command Befehle hinzufügen](./README_user_command3.png)
+
+Ausgeführt wird der Befehl über **Tools>User>Jeweiliger UserCommand**
+
+![User Command ausführen](./README_user_command4.png)
+
 # Travis CI/CD
 Jeder commit wird über Travis gebaut und bei einer Änderung auf dem Master direkt als "Pre-Release" deployed. Dafür muss [Travis-CI.org](https://travis-ci.org/) oder [Travis-CI.com](https://travis-ci.com) zuerst die diesbezüglichen Berechtigungen erhalten, und für dieses Repo aktiviert sein. Danach muss der Dateiname in ```travis.yml``` nachgetragen werden. Damit das Deployment funktioniert muss ein OAuth Token generiert werden und in Travis hinterlegt werden.
 

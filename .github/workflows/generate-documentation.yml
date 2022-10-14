@@ -20,19 +20,10 @@ jobs:
       uses: xu-cheng/texlive-action/full@v1
       with:
         run: |
-          cp -n texlive* /tmp/
-          tlmgr install koma-script etoolbox logreq biblatex-apa csquotes siunitx oberdiek tocloft abstract pdfpages enumitem
-          tlmgr install psnfss ms caption ec l3kernel l3packages zapfding symbol helvetic textpos glossaries xkeyval mfirstuc
-          tlmgr install textcase xfor datatool substr fp tracklang pdfx iftex xcolor xmpincl glossaries-german
-          tlmgr install bitset letltxmacro pdfescape pdflscape ragged2e lipsum
+          cp -n ci/texlive* /tmp/
+          /tmp/texlive_plugin_install.sh
           source .env
-          pdflatex -interaction=nonstopmode -halt-on-error BA-Dokumentation-Template.tex
-          biber *.bcf
-          makeglossaries BA-Dokumentation-Template
-          pdflatex -interaction=nonstopmode -halt-on-error BA-Dokumentation-Template.tex
-          pdflatex -interaction=nonstopmode -halt-on-error "\providecommand{\docversion}{$VERSION.$GITHUB_RUN_ID} \input{BA-Dokumentation-Template.tex}"
-          pdflatex -interaction=nonstopmode -halt-on-error ./web-abstract/WebAbstract.tex
-          pdflatex -interaction=nonstopmode -halt-on-error ./web-abstract/WebAbstract.tex
+          /tmp/texlive_generate.sh "$VERSION.$GITHUB_RUN_ID"
           mv BA-Dokumentation-Template.pdf $FILE_NAME.pdf
 
     - name: Save Documentation

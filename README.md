@@ -18,13 +18,14 @@ Die Ordnerstruktur ist die folgende:
 
 ```text
 Hauptordner
+	|- .github				Konfigurationsdatei für HG-Workflow
 	|- appendix				Alle Dokumente für den Anhang (PDFs in diesem Ordner werden durch das .gitignore nicht erfasst)
 	|- img					Alle Bilder (werden durch den \graphicspath im Hauptdokument gefunden)
 	|- include				Alle Kapitel-Dateien welche in das Hauptdokument eingebunden werden (inklusive Präambel)
 	|- web-abstract				Ordner für das Web Abstract
 	|- .gitignore
 	|- .travis.yml				Konfigurationsdatei für Travis
-	|- .version				Hilfsdatei für die Versionierung für das CD über Travis
+	|- .env				Hilfsdatei für die Konfiguration von CI (Travis, GH-Workflow)
 	|- BA-Dokumentation-Template.tex	Hauptdatei
 	|- Referenzen.bib			BibTeX Datei / Referenzbibliothek
 	|- texlive.profile			Hilfsdatei für das Installskript
@@ -56,19 +57,39 @@ Ausgeführt wird der Befehl über **Tools>User>Jeweiliger UserCommand**
 
 ![User Command ausführen](./README_user_command4.png)
 
-# Travis CI/CD
-Jeder commit wird über Travis gebaut und bei einer Änderung auf dem Master direkt als "Pre-Release" deployed. Dafür muss [Travis-CI.org](https://travis-ci.org/) oder [Travis-CI.com](https://travis-ci.com) zuerst die diesbezüglichen Berechtigungen erhalten, und für dieses Repo aktiviert sein. Danach muss der Dateiname in ```travis.yml``` nachgetragen werden. Damit das Deployment funktioniert muss ein OAuth Token generiert werden und in Travis hinterlegt werden.
+# CI/CD
+Jeder Commit auf den Branch "master" oder bei Pull Requests, wird über eine verfügbare CI Pipeline generiert. Dafür muss die spezifische CI Pipeline aber zuerst konfiguriert werden.
+
+## Vorbereitete CI Pipelines
+<details>
+<summary>Travis</summary>
+
+Dafür muss [Travis-CI.org](https://travis-ci.org/) oder [Travis-CI.com](https://travis-ci.com) zuerst die diesbezüglichen Berechtigungen erhalten, und für dieses Repo aktiviert sein. Danach muss der Dateiname in ```travis.yml``` nachgetragen werden. Damit das Deployment funktioniert, muss ein OAuth Token generiert werden und in Travis hinterlegt werden.
+
+Jeder commit wird über Travis gebaut und bei einer Änderung auf dem Master direkt als "Pre-Release" deployed.
+
+
+### OAuth Token in Environment Variable in Travis
+Generiere über die [Anleitung von Github](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) ein OAuth Token für dein Konto mit den Berechtigungen ```repo``` oder nur ```public_repo```. Danach kopierst du den erhaltenen Hash in eine Environment Variable namens ```GIT_AUTH``` in den Einstellungen von Travis für dein jeweiliges Repo.
+
+![Environment Variable in Travis](./README_env_variable_git_auth.png)
+
+</details>
+<details>
+<summary>GH-Workflow</summary>
+
+Hierfür muss nichts Spezielles konfiguriert werden. Es ist allerdings zu beachten, dass jeder Run zu den ["gratis" runner Minutes](https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions#included-storage-and-minutes) dazuzählt. Also kurz überprüfen, damit es keine unschönen Überraschungen gibt.
+
+Die generierte Dokumentation wird bei den Artefakts des Jobs abgelegt.
+
+</details>
 
 ## Versionierung
-Unsere Versionierung folgt dem Schema ```v.(Major).(Minor).(Commitnummer - Automatisch)```, dies aus dem Grund damit die Version sicher immer automatisch inkrementiert wird, und keine identischen Versionsnummern für verschiedene Dokumente existieren können. Major und Minor sind in der Datei ```.version``` spezifiziert, während Travis die Buildnummer automatisch einfügt.
+Unsere Versionierung folgt dem Schema ```v.(Major).(Minor).(Buildnummer - Automatisch)```, dies aus dem Grund damit die Version sicher immer automatisch inkrementiert wird, und keine identischen Versionsnummern für verschiedene Dokumente existieren können. Major und Minor sind in der Datei ```.env``` spezifiziert, während die CI die Buildnummer automatisch einfügt.
 
-## Anpassungen in .travis.yml
-Ändere den Name von ```FILE_NAME``` auf dein Dokument:
-
-```yaml
-env:
-  - FILE_NAME=NAME-DEINES-DOKUMENTS
-```
+## Konfigurationen
+Weitere weit verbreitete konfigurationen können auch direkt in der Datei ```.env``` gemacht werden. Wie z.B:
+- ```FILE_NAME``` <= Name des generierten Dokuments
 
 ## Warum die vielen ```tlmgr install```?
 In einer ersten Version installierten wir die ganze TeXLive Suite für jeden Build. Dies hat jeweils um die zehn Minuten gedauert. Im Vergleich dazu lief der Build der Datei jeweils maximal eine Minute. Diese Diskrepanz wollten wir angehen. Daher installieren wir eine minimale Umgebung über das Installierskript ```texlive_install.sh```. Damit aber unser Build nicht failt, müssen wir alle fehlenden Packete (und deren Abhängigkeiten) nachinstallieren. Und dazu kommt noch, dass wir die LaTeX-Build Fähigkeit auf Travis hinaufsetzen, da TeX/LaTeX nicht offiziell unterstützt wird.
@@ -87,11 +108,6 @@ install:
   - tlmgr install [...] new_package
 ...
 ```
-
-## OAuth Token in Environment Variable in Travis
-Generiere über die [Anleitung von Github](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) ein OAuth Token für dein Konto mit den Berechtigungen ```repo``` oder nur ```public_repo```. Danach kopierst du den erhaltenen Hash in eine Environment Variable namens ```GIT_AUTH``` in den Einstellungen von Travis für dein jeweiliges Repo.
-
-![Environment Variable in Travis](./README_env_variable_git_auth.png)
 
 # PDF/A Compliance
 Das Reglement der HSLU für Wirtschafts- und Bachelorarbeiten verlangt für die Abgabe von WebAbstract und Dokumentation die Einhaltung des [PDF/A-Dateiformats](http://www.pdfa.org/). Wir erreich dies über das Packet ```pdfx``` und legen über ```\usepackage[a-2b,latxmp]{pdfx}``` sowohl den Standard (2A Basic) und eine externe Metadatendatei fest. Damit wird unser Dokument direkt in ein PDF/A2b-PDF kompiliert.

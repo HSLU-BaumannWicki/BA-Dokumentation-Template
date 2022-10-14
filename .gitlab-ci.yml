@@ -1,0 +1,18 @@
+# To contribute improvements to CI/CD templates, please follow the Development guide at:
+# https://docs.gitlab.com/ee/development/cicd/templates.html
+
+stages:
+  - build
+
+build-job:
+  stage: build
+  tags:
+    - green-ubuntu # select your own runner
+  before_script:
+    - source .env
+  script:
+    - docker run --mount type=bind,source="$(pwd)",target=/gitlab registry.gitlab.com/islandoftex/images/texlive:latest /bin/bash -eo pipefail -c "cd /gitlab; cp -n texlive* /tmp/;tlmgr install koma-script etoolbox logreq biblatex-apa csquotes siunitx oberdiek tocloft abstract pdfpages enumitem;tlmgr install psnfss ms caption ec l3kernel l3packages zapfding symbol helvetic textpos glossaries xkeyval mfirstuc;tlmgr install textcase xfor datatool substr fp tracklang pdfx iftex xcolor xmpincl glossaries-german;tlmgr install bitset letltxmacro pdfescape pdflscape ragged2e lipsum;pdflatex -interaction=nonstopmode -halt-on-error BA-Dokumentation-Template.tex;biber *.bcf;makeglossaries BA-Dokumentation-Template;pdflatex -interaction=nonstopmode -halt-on-error BA-Dokumentation-Template.tex;pdflatex -interaction=nonstopmode -halt-on-error \"\providecommand{\docversion}{$VERSION.$CI_JOB_ID} \input{BA-Dokumentation-Template.tex}\";pdflatex -interaction=nonstopmode -halt-on-error ./web-abstract/WebAbstract.tex;pdflatex -interaction=nonstopmode -halt-on-error ./web-abstract/WebAbstract.tex; mv BA-Dokumentation-Template.pdf $FILE_NAME.pdf"
+  artifacts:
+    paths:
+      - "*.pdf"
+    expire_in: 1 week

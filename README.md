@@ -66,7 +66,7 @@ Jeder Commit auf den Branch "master" oder bei Pull Requests, wird über eine ver
 
 Dafür muss [Travis-CI.org](https://travis-ci.org/) oder [Travis-CI.com](https://travis-ci.com) zuerst die diesbezüglichen Berechtigungen erhalten, und für dieses Repo aktiviert sein. Danach muss der Dateiname in ```travis.yml``` nachgetragen werden. Damit das Deployment funktioniert, muss ein OAuth Token generiert werden und in Travis hinterlegt werden.
 
-Jeder commit wird über Travis gebaut und bei einer Änderung auf dem Master direkt als "Pre-Release" deployed.
+> Jeder commit wird über Travis gebaut und bei einer Änderung auf dem Master direkt als "Pre-Release" deployed.
 
 
 ### OAuth Token in Environment Variable in Travis
@@ -80,7 +80,20 @@ Generiere über die [Anleitung von Github](https://help.github.com/en/articles/c
 
 Hierfür muss nichts Spezielles konfiguriert werden. Es ist allerdings zu beachten, dass jeder Run zu den ["gratis" runner Minutes](https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions#included-storage-and-minutes) dazuzählt. Also kurz überprüfen, damit es keine unschönen Überraschungen gibt.
 
-Die generierte Dokumentation wird bei den Artefakts des Jobs abgelegt.
+> Die generierte Dokumentation wird bei den Artefakts des Jobs abgelegt.
+
+</details>
+<details>
+<summary>GitLab</summary>
+
+GitLab muss einen Runner haben, damit die CI ausgeführt werden kann. Dafür kann z.B. ein eigener registriert werden: https://docs.gitlab.com/runner/
+
+Mindestanforderungen für diesen sind:
+- Docker (CI Benutzer muss Container starten können)
+
+Nicht vergessen, die ```tags``` in der Datei ```.gitlab-ci.yml``` anzupassen, damit GitLab den richtigen Runner verwendet.
+
+> Die generierte Dokumentation wird bei den Artefakts des Jobs abgelegt.
 
 </details>
 

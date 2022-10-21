@@ -1,0 +1,21 @@
+# To contribute improvements to CI/CD templates, please follow the Development guide at:
+# https://docs.gitlab.com/ee/development/cicd/templates.html
+
+stages:
+  - build
+
+build-job:
+  stage: build
+  tags:
+    - green-ubuntu # select your own runner
+  before_script:
+    - source .env
+  script:
+    - docker run
+      --mount type=bind,source="$(pwd)",target=/gitlab registry.gitlab.com/islandoftex/images/texlive:latest
+      /bin/bash -eo pipefail
+      -c "cd /gitlab; cp -n ci/texlive* /tmp/; /tmp/texlive_plugin_install.sh; /tmp/texlive_generate.sh $VERSION.$CI_JOB_ID; mv BA-Dokumentation-Template.pdf $FILE_NAME.pdf"
+  artifacts:
+    paths:
+      - "*.pdf"
+    expire_in: 1 week

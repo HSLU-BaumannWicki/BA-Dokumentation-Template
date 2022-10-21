@@ -7,12 +7,9 @@ branches:
     /^v[0-9]+\.[0-9]+\.[0-9]+/
 
 install:
-  - cp -n texlive* /tmp/
+  - cp -n ci/texlive* /tmp/
   - source /tmp/texlive_install.sh
-  - tlmgr install koma-script etoolbox logreq biblatex-apa csquotes siunitx oberdiek tocloft abstract pdfpages enumitem
-  - tlmgr install psnfss ms caption ec l3kernel l3packages zapfding symbol helvetic textpos glossaries xkeyval mfirstuc
-  - tlmgr install textcase xfor datatool substr fp tracklang pdfx iftex xcolor xmpincl glossaries-german
-  - tlmgr install bitset letltxmacro pdfescape pdflscape ragged2e lipsum
+  - /tmp/texlive_plugin_install.sh
 
 cache:
   directories:
@@ -20,16 +17,10 @@ cache:
     - $HOME/.texlive
 
 before_script:
-  - source .version
+  - source .env
 
 script:
-  - pdflatex -interaction=nonstopmode -halt-on-error BA-Dokumentation-Template.tex
-  - biber *.bcf
-  - makeglossaries BA-Dokumentation-Template
-  - pdflatex -interaction=nonstopmode -halt-on-error BA-Dokumentation-Template.tex
-  - pdflatex -interaction=nonstopmode -halt-on-error "\providecommand{\docversion}{${VERSION}.${TRAVIS_BUILD_NUMBER}} \input{BA-Dokumentation-Template.tex}"
-  - pdflatex -interaction=nonstopmode -halt-on-error ./web-abstract/WebAbstract.tex
-  - pdflatex -interaction=nonstopmode -halt-on-error ./web-abstract/WebAbstract.tex
+  - /tmp/texlive_generate.sh ${VERSION}.${TRAVIS_BUILD_NUMBER}
 
 deploy:
   - provider: releases

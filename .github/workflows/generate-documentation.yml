@@ -1,0 +1,33 @@
+name: Generate Documentation
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - master
+
+jobs:
+  generate-documenation:
+    name: Generate PDF
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Texlive
+      uses: xu-cheng/texlive-action/full@v1
+      with:
+        run: |
+          cp -n ci/texlive* /tmp/
+          /tmp/texlive_plugin_install.sh
+          source .env
+          /tmp/texlive_generate.sh "$VERSION.$GITHUB_RUN_ID"
+          mv BA-Dokumentation-Template.pdf $FILE_NAME.pdf
+
+    - name: Save Documentation
+      uses: actions/upload-artifact@v3
+      with:
+        name: documentation
+        path: '*.pdf'
